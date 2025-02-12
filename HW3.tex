@@ -103,8 +103,56 @@ to this \texttt{.Rnw} file.\\
 \begin{knitrout}\scriptsize
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlcom{# Copy your solution code here.}
+\hldef{prime_factors} \hlkwb{=} \hlkwa{function}\hldef{(}\hlkwc{n}\hldef{)\{} \hlcom{#returns a vector of prime factors of n}
+  \hldef{primefactors} \hlkwb{=} \hlkwd{c}\hldef{()} \hlcom{#stores prime factors of n}
+  \hldef{i} \hlkwb{=} \hlnum{2} \hlcom{#initialize i to 2 because everything is divisible by 1, and we don't care about that}
+  \hlkwa{while}\hldef{(n}\hlopt{>}\hlnum{1}\hldef{)\{}
+    \hlkwa{while}\hldef{(n} \hlopt{%%} \hldef{i} \hlopt{==} \hlnum{0}\hldef{)\{} \hlcom{#if i is a factor}
+      \hldef{n} \hlkwb{=} \hldef{n}\hlopt{/}\hldef{i} \hlcom{#divides by factor to potentially get other factors of n}
+      \hldef{primefactors} \hlkwb{=} \hlkwd{append}\hldef{(primefactors, i)} \hlcom{#add i to vector of prime factors}
+    \hldef{\}}
+    \hldef{i}\hlkwb{=}\hldef{i}\hlopt{+}\hlnum{1} \hlcom{#find next factor}
+    \hlkwa{if}\hldef{(i}\hlopt{*}\hldef{i}\hlopt{>}\hldef{n)\{} \hlcom{#checks that n has no more prime divisors}
+      \hlkwa{if}\hldef{(n}\hlopt{>}\hlnum{1}\hldef{)\{} \hlcom{#if n=1, we can break}
+        \hldef{primefactors} \hlkwb{=} \hlkwd{append}\hldef{(primefactors, n)} \hlcom{#append the prime n to vector of prime factors}
+      \hldef{\}}
+      \hlkwa{break} \hlcom{#if n=1, we are done}
+    \hldef{\}}
+  \hldef{\}}
+  \hlkwd{return}\hldef{(primefactors)} \hlcom{#return vector of all prime factors (includes duplicates)}
+\hldef{\}}
+
+
+\hldef{is_prime} \hlkwb{=} \hlkwa{function}\hldef{(}\hlkwc{n}\hldef{)\{} \hlcom{#checks if n is prime}
+  \hlkwa{for} \hldef{(i} \hlkwa{in} \hlnum{3}\hlopt{:}\hldef{n}\hlopt{-}\hlnum{1}\hldef{)\{}
+    \hlkwa{if}\hldef{(n}\hlopt{%%}\hldef{i} \hlopt{==} \hlnum{0}\hldef{)\{} \hlcom{#checks if divisible by i}
+      \hlkwd{return}\hldef{(}\hlnum{FALSE}\hldef{)}
+    \hldef{\}}
+  \hldef{\}}
+  \hlkwd{return} \hldef{(}\hlnum{TRUE}\hldef{)} \hlcom{#not divisible by anything other than itself and 1}
+\hldef{\}}
+
+\hldef{correct} \hlkwb{=} \hlkwd{c}\hldef{()} \hlcom{#empty vector that will be a vector of products of unique prime numbers}
+\hlkwa{for}\hldef{(i} \hlkwa{in} \hlnum{3}\hlopt{:}\hlnum{99}\hldef{)\{}
+  \hldef{primefactors} \hlkwb{=} \hlkwd{prime_factors}\hldef{(i)} \hlcom{#gets prime factors of i}
+  \hlkwa{if}\hldef{(}\hlkwd{length}\hldef{(primefactors)}\hlopt{==}\hlkwd{length}\hldef{(}\hlkwd{unique}\hldef{(primefactors))}  \hlopt{&&} \hlkwd{length}\hldef{(primefactors)} \hlopt{==} \hlnum{2}\hldef{)\{} \hlcom{#checks if they are all unique}
+    \hlkwa{if}\hldef{(}\hlopt{!}\hlkwd{is_prime}\hldef{(i))\{} \hlcom{#can't be prime because it must be a product of unique prime numbers}
+      \hldef{correct} \hlkwb{=} \hlkwd{append}\hldef{(correct, i)} \hlcom{#add i if so}
+    \hldef{\}}
+  \hldef{\}}
+\hldef{\}}
+
+\hldef{nums} \hlkwb{=} \hlkwd{c}\hldef{(}\hlnum{6}\hldef{,} \hlnum{10}\hldef{,} \hlnum{14}\hldef{,} \hlnum{15}\hldef{,} \hlnum{21}\hldef{,} \hlnum{22}\hldef{,} \hlnum{26}\hldef{,} \hlnum{33}\hldef{,} \hlnum{34}\hldef{,} \hlnum{35}\hldef{,} \hlnum{38}\hldef{,} \hlnum{39}\hldef{,} \hlnum{46}\hldef{,} \hlnum{51}\hldef{,} \hlnum{55}\hldef{,} \hlnum{57}\hldef{,} \hlnum{58}\hldef{,}
+         \hlnum{62}\hldef{,} \hlnum{65}\hldef{,} \hlnum{69}\hldef{,} \hlnum{75}\hldef{,} \hlnum{77}\hldef{,} \hlnum{82}\hldef{,} \hlnum{85}\hldef{,} \hlnum{86}\hldef{,} \hlnum{87}\hldef{,} \hlnum{91}\hldef{,} \hlnum{93}\hldef{,} \hlnum{94}\hldef{,} \hlnum{95}\hldef{)} \hlcom{#set of numbers Blake wrote down}
+
+\hldef{incorrect} \hlkwb{=} \hlkwd{setdiff}\hldef{(nums, correct)} \hlcom{#number that is in Blake's set but not my correct numbers vector}
+\hldef{replacement} \hlkwb{=} \hlkwd{setdiff}\hldef{(correct, nums)} \hlcom{#number that is in my correct vector but not Blake's set of numbers}
+
+\hlkwd{paste}\hldef{(}\hlsng{"The incorrect number is "}\hldef{, incorrect,} \hlsng{". Replace it with "}\hldef{, replacement,} \hlkwc{sep} \hldef{=} \hlsng{""}\hldef{)}
 \end{alltt}
+\begin{verbatim}
+## [1] "The incorrect number is 75. Replace it with 74"
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 \end{enumerate}
