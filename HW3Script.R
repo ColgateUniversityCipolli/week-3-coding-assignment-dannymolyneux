@@ -40,7 +40,10 @@ for(i in 3:99){
 nums = c(6, 10, 14, 15, 21, 22, 26, 33, 34, 35, 38, 39, 46, 51, 55, 57, 58,
          62, 65, 69, 75, 77, 82, 85, 86, 87, 91, 93, 94, 95) #set of numbers Blake wrote down
 
+incorrect = setdiff(nums, correct) #number that is in Blake's set but not my correct numbers vector
+replacement = setdiff(correct, nums) #number that is in my correct vector but not Blake's set of numbers
 
+paste("The incorrect number is ", incorrect, ". Replace it with ", replacement, sep = "")
 
 
 
